@@ -11,9 +11,15 @@ exports.files = {
 
 exports.plugins = {
   babel: {
-  	presets: ['latest'],
-  	plugins: [
-  		['transform-react-jsx', {pragma: 'h'}]	
-  	]
-	}
+    presets: ['latest'],
+    plugins: [
+      ['transform-react-jsx', {pragma: 'h'}]
+    ],
+    ignore: [/node_modules/]
+  },
+  handlebars: {
+    locals: {
+      baseUrl: process.env.NODE_ENV === 'production' ? '/app.github.io' : ''
+    }
+  }
 };
