@@ -9,6 +9,10 @@ exports.files = {
   stylesheets: {joinTo: 'app.css'}
 };
 
+exports.conventions = {
+  ignored: /^test/
+};
+
 exports.plugins = {
   babel: {
     presets: ['latest'],
