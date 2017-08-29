@@ -1,0 +1,55 @@
+@import '../../styles/base/variables';
+
+header {
+  background-color: $darkslategray;
+  height: $header-height;
+  color: #fff;
+
+  .row {
+    height: $header-height;
+    align-items: center;
+  }
+  .header-logo-invertocat {
+    color: #fff;
+
+    path {
+      fill: #fff;
+    }
+  }
+
+  .header-search-wrapper {
+    height: 30px;
+    font-size: inherit;
+    margin-left: 15px;
+    display: block;
+    color: #fff;
+    background-color: rgba(255,255,255,0.125);
+    border: 0;
+    box-shadow: none;
+    border-radius: 3px;
+    
+    .header-search-input {
+      min-height: 30px;
+      padding-left: 10px;
+      background: none;
+      width: 300px;
+      border: 0;
+      box-shadow: none;
+      color: #fff;
+      border-radius: 3px;
+      outline: none;
+    }
+  }
+
+  .search-bnt {
+    color: $silver;
+    font-weight: bold;
+    margin-left: 15px;
+
+    &:hover {
+      cursor: pointer;
+      color: #fff;
+    }
+  }
+  
+}
