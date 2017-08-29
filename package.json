@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "dependencies": {
-    "preact": "^8.1.0"
+    "preact": "^8.1.0",
+    "sass-brunch": "^2.10.4"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2",

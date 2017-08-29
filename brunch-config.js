@@ -6,7 +6,10 @@ exports.files = {
       'app.js': /^app/
     }
   },
-  stylesheets: {joinTo: 'app.css'}
+  stylesheets: {
+    defaultExtension: 'scss',
+    joinTo: 'app.css'
+  }
 };
 
 exports.conventions = {
