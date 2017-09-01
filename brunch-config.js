@@ -28,5 +28,20 @@ exports.plugins = {
     locals: {
       baseUrl: process.env.NODE_ENV === 'production' ? '/app.github.io' : ''
     }
+  },
+  gzip: {
+    paths: {
+      javascript: '/',
+      stylesheet: '/'
+    },
+    removeOriginalFiles: false,
+    renameGzipFilesToOriginalFiles: false
+  }
+};
+
+exports.npm = {
+  aliases: {
+    'react': 'preact-compat',
+    'react-dom': 'preact-compat'
   }
 };
