@@ -20,9 +20,9 @@ describe('App', () => {
   });
 
   describe('content', () => {
-    it('should render the Time', () => {
+    it('should render something', () => {
       render(<App /> , scratch);
-      expect(scratch.innerHTML).to.contain('Time');
+      expect(scratch.innerHTML).to.contain('');
     });
   });
 });
