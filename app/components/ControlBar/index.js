@@ -3,14 +3,17 @@ import Sorting from './sorting';
 import Filters from './filters';
 
 class ControlBar extends Component {
-  render({ sortOnChange, sortOrderOnChange }) {
+  render({ repos, sortOnChange, sortOrderOnChange, filtersParamsOnChange }) {
     return (
       <div>
         <Sorting
         	sortOnChange={sortOnChange}
         	sortOrderOnChange={sortOrderOnChange}
         />
-        <Filters />
+        <Filters
+        	repos={repos}
+					filtersParamsOnChange={filtersParamsOnChange}
+        />
       </div>
     );
   }

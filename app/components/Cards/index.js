@@ -3,18 +3,40 @@ import Card from './../Card';
 
 class Cards extends Component {
   
-  // constructor() {
-  //   super();
-  // }
-  
   componentWillReceiveProps(nextProps) {
     this.setState({
       repos: nextProps.repos,
       sortBy: nextProps.sortBy
     });
+    if (nextProps.filtersParams) {
+      this.filtering(nextProps.filtersParams);
+    }
     if (nextProps.sortBy) {
       this.sortRepos(nextProps.sortBy, nextProps.sortOrder);
     }
+  }
+
+  filtering(filtersParams) {
+    const numberOfStars = +filtersParams.numberOfStars || 0;
+    const {
+      hasTopics,
+      hasOpenIssues,
+      updatedDate,
+      type,
+      language,
+    } = filtersParams;
+
+    let repos = this.state.repos;
+    repos = repos.filter((repo) => {
+      return !(repo.stargazers_count < numberOfStars ||
+               hasTopics && repo.topics.length === 0 ||
+               hasOpenIssues && repo.open_issues_count === 0 ||
+               updatedDate && new Date(updatedDate) > new Date(repo.pushed_at) ||
+               type && type === 'forks' && repo.fork === false ||
+               type && type === 'sources' && repo.fork === true ||
+               language && language !== 'all' && repo.language !== language);
+    });
+    this.setState({repos});
   }
 
   sortRepos(sortBy, sortOrder) {
@@ -52,7 +74,6 @@ class Cards extends Component {
   }
 
   render({ }, { repos = [] }) {
-    // console.log(repos)
     return (
       <div>
         {

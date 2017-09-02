@@ -12,21 +12,36 @@ class App extends Component {
     super();
     this.state = {
       sortBy: 'Name',
+      filtersParams: {},
     };
     this.search = this.search.bind(this);
     this.sortOnChange = this.sortOnChange.bind(this);
     this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
+    this.filtersParamsOnChange = this.filtersParamsOnChange.bind(this);
   }
 
   async componentDidMount() {
-    let res = await fetch(`${SEARCH}`),
-      json = await res.json(),
-      repos = json || [];
+    let res = await fetch(`${SEARCH}`,
+      {
+        headers: {
+          'Accept': 'application/vnd.github.mercy-preview+json', 
+        },
+      }
+    ),
+    json = await res.json(),
+    repos = json || [];
     this.setState({ repos });
   }
 
   async search(owner) {
-    let res = await fetch(`//api.github.com/users/${owner}/repos`),
+    let res = await fetch(
+      `//api.github.com/users/${owner}/repos`,
+      {
+        headers: {
+          'Accept': 'application/vnd.github.mercy-preview+json', 
+        },
+      }
+    ),
       json = await res.json(),
       repos = json || [];
     this.setState({ repos });
@@ -40,7 +55,13 @@ class App extends Component {
     this.setState({ sortOrder });
   }
 
-  render({ }, { repos=[], sortBy, sortOrder }) {
+  filtersParamsOnChange(param) {
+    let filtersParams = this.state.filtersParams;
+    filtersParams = Object.assign({}, filtersParams, param);
+    this.setState({ filtersParams });
+  }
+
+  render({ }, { repos=[], sortBy, sortOrder, filtersParams }) {
     return (
       <div>
         <Header search={this.search}/>
@@ -51,12 +72,15 @@ class App extends Component {
                 repos={repos}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
+                filtersParams={filtersParams}
               />
             </div>
             <div class="col-md-5">
               <ControlBar
+                repos={repos}
                 sortOnChange={this.sortOnChange}
                 sortOrderOnChange={this.sortOrderOnChange}
+                filtersParamsOnChange={this.filtersParamsOnChange}
               />    
             </div>
           </div> 

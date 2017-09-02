@@ -3,7 +3,6 @@ import getGitHubIcon from './gitHubIcon.js';
 
 class Header extends Component {
   render({search}) {
-    console.log(search);
     return (
       <header>
         <div class="container">
