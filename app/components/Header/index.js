@@ -2,7 +2,7 @@ import {h, Component} from 'preact';
 import getGitHubIcon from './gitHubIcon.js';
 
 class Header extends Component {
-  render({search}) {
+  render({changeOwner}) {
     return (
       <header>
         <div class="container">
@@ -23,7 +23,7 @@ class Header extends Component {
                 <input
                   type="text"
                   class="form-control header-search-input js-site-search-focus"
-                  onChange={(e) => search(e.target.value)}
+                  onChange={(e) => changeOwner(e.target.value)}
                   data-hotkey="s"
                   name="q"
                   value=""

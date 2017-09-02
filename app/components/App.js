@@ -4,8 +4,6 @@ import Header from './Header';
 import ControlBar from './ControlBar';
 import Cards from './Cards';
 
-const SEARCH = '//api.github.com/users/PavlyukVadim/repos';
-
 class App extends Component {
   
   constructor() {
@@ -13,58 +11,87 @@ class App extends Component {
     this.state = {
       sortBy: 'Name',
       filtersParams: {},
+      owner: 'geek',
+      numberOfPages: 1,
+      repos: [],
     };
-    this.search = this.search.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.changeOwner = this.changeOwner.bind(this);
     this.sortOnChange = this.sortOnChange.bind(this);
     this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
     this.filtersParamsOnChange = this.filtersParamsOnChange.bind(this);
   }
 
-  async componentDidMount() {
-    let res = await fetch(`${SEARCH}`,
-      {
-        headers: {
-          'Accept': 'application/vnd.github.mercy-preview+json', 
-        },
-      }
-    ),
-    json = await res.json(),
-    repos = json || [];
-    this.setState({ repos });
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+    this.search(this.state.owner);
   }
 
-  async search(owner) {
-    let res = await fetch(
-      `//api.github.com/users/${owner}/repos`,
+  async search(owner, addMode) {
+    let numberOfPages = addMode ? this.state.numberOfPages + 1 : this.state.numberOfPages;
+    const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
+    const res = await fetch(
+      link,
       {
         headers: {
           'Accept': 'application/vnd.github.mercy-preview+json', 
         },
       }
-    ),
-      json = await res.json(),
-      repos = json || [];
-    this.setState({ repos });
+    );
+    const json = await res.json();
+    let repos = json || [];
+    if (addMode) {
+      repos = repos.concat(this.state.repos);
+      this.setState({
+        repos,
+        numberOfPages,
+      });
+    } else {
+      this.setState({repos});
+    }
+  }
+
+  handleScroll() {
+    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
+    const windowBottom = windowHeight + window.pageYOffset;
+    if (windowBottom >= docHeight) {
+      this.search(this.state.owner, true);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  changeOwner(owner) {
+    this.setState({
+      owner,
+      numberOfPages: 1,
+    });
+    this.search(owner);
   }
 
   sortOnChange(sortBy) {
-    this.setState({ sortBy });
+    this.setState({sortBy});
   }
 
   sortOrderOnChange(sortOrder) {
-    this.setState({ sortOrder });
+    this.setState({sortOrder});
   }
 
   filtersParamsOnChange(param) {
     let filtersParams = this.state.filtersParams;
     filtersParams = Object.assign({}, filtersParams, param);
-    this.setState({ filtersParams });
+    this.setState({filtersParams});
   }
 
   render({ }, { repos=[], sortBy, sortOrder, filtersParams }) {
     return (
       <div>
-        <Header search={this.search}/>
+        <Header changeOwner={this.changeOwner}/>
         <div class="container">
           <div class="row">
             <div class="col-md-7">
