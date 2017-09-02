@@ -1,8 +1,11 @@
 import {h, Component} from 'preact';
 
+import relativeDate from './relativeDate';
+import programmingLanguages from './programmingLanguages';
+
 class Card extends Component {
+
   render({ repo }) {
-    console.log(repo);
     return (
       <div class="card">
         <li class="col-md-12" itemprop="owns" itemscope="" itemtype="http://schema.org/Code">
@@ -15,14 +18,21 @@ class Card extends Component {
             <p class="repo-desc" itemprop="description">{repo.description}</p>
           </div>
           <div class="repo-stats">
-            <span class="repo-language-color" style="background-color:#563d7c;" />
-            <span class="programming-language" itemprop="programmingLanguage">CSS</span>
-            <a class="muted-link" href={`${repo.html_url}/stargazers`}>
-              <svg aria-label="star" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
-                <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z" />
-              </svg>
-              <span class="number-of-stars">{repo.stargazers_count}</span>
-            </a>
+            { repo.language &&
+              <div>
+                <span class="repo-language-color" style={{backgroundColor: programmingLanguages[repo.language]}}/>
+                <span class="programming-language" itemprop="programmingLanguage">{repo.language}</span>  
+              </div>
+            }
+            {
+              repo.stargazers_count > 0 &&
+              <a class="muted-link" href={`${repo.html_url}/stargazers`}>
+                <svg aria-label="star" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                  <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z" />
+                </svg>
+                <span class="number-of-stars">{repo.stargazers_count}</span>
+              </a>
+            }
             {
               repo.fork &&
               <a class="muted-link">
@@ -32,7 +42,14 @@ class Card extends Component {
                 <span class="is-repo-forked">Forked</span>
               </a>
             }
-            Updated <relative-time datetime="2017-05-16T07:13:20Z" title="16 мая 2017 г., 10:13 GMT+3"> on 16 May</relative-time>
+            Updated
+            <relative-time
+              class="relative-time"
+              datetime={repo.pushed_at}
+              title={relativeDate(repo.pushed_at)}
+            >
+              {relativeDate(repo.pushed_at)}
+            </relative-time>
           </div>
         </li>
       </div>

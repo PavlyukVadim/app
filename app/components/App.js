@@ -1,8 +1,8 @@
 import {h, Component} from 'preact';
 
 import Header from './Header';
-import Filters from './Filters';
-import Card from './Card';
+import ControlBar from './ControlBar';
+import Cards from './Cards';
 
 const SEARCH = '//api.github.com/users/PavlyukVadim/repos';
 
@@ -10,7 +10,12 @@ class App extends Component {
   
   constructor() {
     super();
+    this.state = {
+      sortBy: 'Name',
+    };
     this.search = this.search.bind(this);
+    this.sortOnChange = this.sortOnChange.bind(this);
+    this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
   }
 
   async componentDidMount() {
@@ -21,28 +26,38 @@ class App extends Component {
   }
 
   async search(owner) {
-    console.log(owner)
     let res = await fetch(`//api.github.com/users/${owner}/repos`),
       json = await res.json(),
       repos = json || [];
-    this.setState({ repos }); 
+    this.setState({ repos });
   }
 
-  render({ }, { repos=[] }) {
+  sortOnChange(sortBy) {
+    this.setState({ sortBy });
+  }
+
+  sortOrderOnChange(sortOrder) {
+    this.setState({ sortOrder });
+  }
+
+  render({ }, { repos=[], sortBy, sortOrder }) {
     return (
       <div>
         <Header search={this.search}/>
         <div class="container">
           <div class="row">
-            <div class="col-md-9">
-              {
-                repos.map(repo => (
-                  <Card repo={repo} />
-                ))
-              }
+            <div class="col-md-7">
+              <Cards 
+                repos={repos}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+              />
             </div>
-            <div class="col-md-3">
-              <Filters />    
+            <div class="col-md-5">
+              <ControlBar
+                sortOnChange={this.sortOnChange}
+                sortOrderOnChange={this.sortOrderOnChange}
+              />    
             </div>
           </div> 
         </div>
