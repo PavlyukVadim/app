@@ -1,14 +1,19 @@
 {
-  "short_name": "My First PWA",
-  "name": "My First Progressive Web App",
+  "short_name": "mini GitHub API client",
+  "name": "mini GitHub API client",
   "icons": [
     {
-      "src":"icon.png",
-      "sizes": "192x192",
+      "src":"images/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src":"images/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "app.github.io/",
   "background_color": "#222",
   "theme_color": "#222",
   "display": "standalone"
