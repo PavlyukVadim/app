@@ -24,9 +24,18 @@ class Dialog extends Component {
           onClick={() => this.closeDialog()}
         />
         <div class="panel">
-          <a href={openedRepo.html_url}>{openedRepo.name}</a>
+          <div class="repo-name">
+            <h3>
+              <a
+                itemprop="name codeRepository"
+                href={openedRepo.html_url}   
+              >
+                {openedRepo.name}
+              </a>
+            </h3>
+          </div>
           <div class="contributors-table">
-            <h3>contributors</h3>
+            <h4>Contributors:</h4>
             <table class="table" cellpadding="0" cellspacing="0">
               <colgroup>
                 <col span="1" />
@@ -56,27 +65,52 @@ class Dialog extends Component {
               }
             </table>
           </div>
-          {
-            openedRepo.languages &&
-            <PieChart
-              data={openedRepo.languages}
-            />
-          }
-          { 
-            openedRepo.languages &&
-            
-              Object.keys(openedRepo.languages).map((language) => {
+          <div class="row languages-row">
+            <div class="col languages-pie-chart">
+              {
+                openedRepo.languages &&
+                <PieChart
+                  data={openedRepo.languages}
+                />
+              }    
+            </div>
+            <div class="col">
+              <ul>
+                {
+                  openedRepo.languages &&
+                  Object.keys(openedRepo.languages).map((language) => {
+                    return (
+                      <li key={language}>
+                        <span class="repo-language-color" style={{backgroundColor: programmingLanguages[language]}}/>
+                        {language} {openedRepo.languages[language]} Kb
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="PRs-table">
+            <h4>PRs:</h4>
+            {
+              openedRepo.PRs &&
+              openedRepo.PRs.map((PR) => {
                 return (
-                  <li>
-                    <span class="repo-language-color" style={{backgroundColor: programmingLanguages[language]}}/>
-                    {language}  
+                  <li key={PR.title}>
+                    <a href={PR.html_url}>{PR.title}</a>
                   </li>
                 )
-              })
-          }
+              }) ||
+              <span>Not found</span>
+            }
+          </div>
           {
             openedRepo.source &&
-            <a href={openedRepo.source.html_url}>Forked From</a>  
+            <p>Forked From:&nbsp;
+              <a href={openedRepo.source.html_url}>
+                {openedRepo.source.full_name}
+              </a>
+            </p>
           }
         </div>
       </div>

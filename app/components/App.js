@@ -59,6 +59,7 @@ class App extends Component {
     let currentRepo = json || {};
     currentRepo.contributors = await this.getInfoAboutRepoContributors(currentRepo);
     currentRepo.languages = await this.getInfoAboutRepoLanguages(currentRepo);
+    currentRepo.PRs = await this.getInfoAboutRepoPRs(currentRepo);
     this.setState({currentRepo});
   }
   
@@ -75,9 +76,25 @@ class App extends Component {
     const res = await fetch(link);
     const json = await res.json();
     let languages = json || {};
+    for (const key in languages) {
+      if (languages[key] <= 1000) {
+        delete languages[key];
+      } else {
+        languages[key] = Math.round((languages[key] / 1000) * 10) / 10;
+      }
+    }
     return languages;
   }
 
+  async getInfoAboutRepoPRs(repo) {
+    const link = repo.pulls_url.slice(0, -"{/number}".length);
+    const res = await fetch(link);
+    const json = await res.json();
+    let PRs = json || [];
+    PRs = PRs.filter((PR) => PR.state === 'open');
+    PRs.slice(0, 4);
+    return PRs;
+  }
 
   handleScroll() {
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;

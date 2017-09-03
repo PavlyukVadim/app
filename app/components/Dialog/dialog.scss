@@ -24,8 +24,10 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     background: white;
-    width: 300px;
+    min-width: 300px;
+    width: 50%;
     margin: 50px auto;
+    padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
@@ -50,6 +52,19 @@
       padding: 20px;
       background: #f4f4f4;
     }
+  }
+
+  .languages-row {
+    margin: 20px 0;
+
+    .languages-pie-chart {
+      max-width: 200px;
+    }
+  }
+
+  .repo-language-color {
+    margin-right: 3px;
+    margin-left: 5px;
   }
 }
 
