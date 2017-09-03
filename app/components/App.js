@@ -20,6 +20,7 @@ class App extends Component {
     this.sortOnChange = this.sortOnChange.bind(this);
     this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
     this.filtersParamsOnChange = this.filtersParamsOnChange.bind(this);
+    this.getInfoAboutRepo = this.getInfoAboutRepo.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +51,33 @@ class App extends Component {
       this.setState({repos});
     }
   }
+
+  async getInfoAboutRepo(repo) {
+    const link = `https://api.github.com/repos/${this.state.owner}/${repo}`;
+    const res = await fetch(link);
+    const json = await res.json();
+    let currentRepo = json || {};
+    currentRepo.contributors = await this.getInfoAboutRepoContributors(currentRepo);
+    currentRepo.languages = await this.getInfoAboutRepoLanguages(currentRepo);
+    this.setState({currentRepo});
+  }
+  
+  async getInfoAboutRepoContributors(repo) {
+    const link = repo.contributors_url;
+    const res = await fetch(link);
+    const json = await res.json();
+    let contributors = json || [];
+    return contributors.slice(0, 3);
+  }
+
+  async getInfoAboutRepoLanguages(repo) {
+    const link = repo.languages_url;
+    const res = await fetch(link);
+    const json = await res.json();
+    let languages = json || {};
+    return languages;
+  }
+
 
   handleScroll() {
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -88,7 +116,7 @@ class App extends Component {
     this.setState({filtersParams});
   }
 
-  render({ }, { repos=[], sortBy, sortOrder, filtersParams }) {
+  render({ }, { repos=[], sortBy, sortOrder, filtersParams, currentRepo }) {
     return (
       <div>
         <Header changeOwner={this.changeOwner}/>
@@ -100,6 +128,8 @@ class App extends Component {
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 filtersParams={filtersParams}
+                getInfoAboutRepo={this.getInfoAboutRepo}
+                currentRepo={currentRepo}
               />
             </div>
             <div class="col-md-5">

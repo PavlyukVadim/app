@@ -1,8 +1,14 @@
 import {h, Component} from 'preact';
 import Card from './../Card';
+import Dialog from './../Dialog';
 
 class Cards extends Component {
-  
+  constructor(props) {
+    super(props);
+    this.openDialog = this.openDialog.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       repos: nextProps.repos,
@@ -73,14 +79,36 @@ class Cards extends Component {
     });
   }
 
-  render({ }, { repos = [] }) {
+  openDialog(name) {
+    this.props.getInfoAboutRepo(name);
+    this.setState({
+      dialogMode: 'active',
+    });
+  }
+
+  closeDialog() {
+    this.setState({
+      dialogMode: 'close',
+    }); 
+  }
+
+  render({ currentRepo }, { repos = [], openedRepo, dialogMode }) {
     return (
       <div>
         {
           repos.map(repo => (
-            <Card repo={repo} />
+            <Card
+              key={repo.name}
+              repo={repo}
+              openDialog={this.openDialog}
+            />
           ))
         }
+        <Dialog
+          openedRepo={currentRepo}
+          dialogMode={dialogMode}
+          closeDialog={this.closeDialog}
+        />
       </div>
     );
   }

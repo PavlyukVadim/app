@@ -5,13 +5,18 @@ import programmingLanguages from './programmingLanguages';
 
 class Card extends Component {
 
-  render({ repo }) {
+  render({ repo, openDialog }) {
     return (
       <div class="card">
         <li class="col-md-12" itemprop="owns" itemscope="" itemtype="http://schema.org/Code">
           <div class="repo-name">
             <h3>
-              <a href={repo.html_url} itemprop="name codeRepository">{repo.full_name}</a>
+              <a
+                itemprop="name codeRepository"
+                onClick={() => openDialog(repo.name)}
+              >
+                {repo.full_name}
+              </a>
             </h3>
           </div>
           <div>
