@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "app.github.io/",
+  "start_url": "/app.github.io",
   "background_color": "#222",
   "theme_color": "#222",
   "display": "standalone"
