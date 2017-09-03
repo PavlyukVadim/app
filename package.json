@@ -27,6 +27,7 @@
     "chai": "^4.1.1",
     "clean-css-brunch": "^2",
     "enzyme": "^2.9.1",
+    "express": "^4.15.4",
     "handlebars-brunch": "^2.10.0",
     "jest": "^20.0.4",
     "preact-jsx-chai": "^2.2.1",
