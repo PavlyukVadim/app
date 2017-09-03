@@ -16,14 +16,14 @@ class Cards extends Component {
       sortBy: nextProps.sortBy
     });
     if (nextProps.filtersParams) {
-      this.filtering(nextProps.filtersParams);
+      this.filtering(nextProps.filtersParams, nextProps.search, nextProps.isFetching);
     }
     if (nextProps.sortBy) {
       this.sortRepos(nextProps.sortBy, nextProps.sortOrder);
     }
   }
 
-  filtering(filtersParams) {
+  filtering(filtersParams, search, isFetching) {
     const numberOfStars = +filtersParams.numberOfStars || 0;
     const {
       hasTopics,
@@ -44,6 +44,10 @@ class Cards extends Component {
                language && language !== 'all' && repo.language !== language);
     });
     this.setState({repos});
+    if (repos.length < 30 && search && !isFetching) {
+      console.log('search');
+      search(undefined, true);
+    }
   }
 
   sortRepos(sortBy, sortOrder) {

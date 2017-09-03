@@ -11,9 +11,11 @@ class App extends Component {
       filtersParams: {},
       owner: 'geek',
       numberOfPages: 1,
+      isLastPage: false,
       repos: [],
       isFetching: false,
     };
+    this.search = this.search.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.changeOwner = this.changeOwner.bind(this);
     this.sortOnChange = this.sortOnChange.bind(this);
@@ -27,7 +29,8 @@ class App extends Component {
     this.search(this.state.owner);
   }
 
-  async search(owner, addMode) {
+  async search(owner = this.state.owner, addMode) {
+    if (this.state.isLastPage && addMode) { return; }
     this.setState({isFetching: true});
     let numberOfPages = addMode ? this.state.numberOfPages + 1 : this.state.numberOfPages;
     const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
@@ -41,6 +44,13 @@ class App extends Component {
     );
     const json = await res.json();
     let repos = json || [];
+    if (!repos.length) {
+      this.setState({
+        isLastPage: true,
+        isFetching: false,
+      });
+      return;
+    }
     if (addMode) {
       repos = repos.concat(this.state.repos);
       this.setState({
@@ -153,6 +163,7 @@ class App extends Component {
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 filtersParams={filtersParams}
+                search={this.search}
                 getInfoAboutRepo={this.getInfoAboutRepo}
                 currentRepo={currentRepo}
                 isFetching={isFetching}
