@@ -1,19 +1,18 @@
 import {h, Component} from 'preact';
-
 import Header from './Header';
 import ControlBar from './ControlBar';
 import Cards from './Cards';
 
 class App extends Component {
-  
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       sortBy: 'Name',
       filtersParams: {},
       owner: 'geek',
       numberOfPages: 1,
       repos: [],
+      isFetching: false,
     };
     this.handleScroll = this.handleScroll.bind(this);
     this.changeOwner = this.changeOwner.bind(this);
@@ -29,6 +28,7 @@ class App extends Component {
   }
 
   async search(owner, addMode) {
+    this.setState({isFetching: true});
     let numberOfPages = addMode ? this.state.numberOfPages + 1 : this.state.numberOfPages;
     const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
     const res = await fetch(
@@ -46,13 +46,18 @@ class App extends Component {
       this.setState({
         repos,
         numberOfPages,
+        isFetching: false,
       });
     } else {
-      this.setState({repos});
+      this.setState({
+        repos,
+        isFetching: false,
+      });
     }
   }
 
   async getInfoAboutRepo(repo) {
+    this.setState({isFetching: true});
     const link = `https://api.github.com/repos/${this.state.owner}/${repo}`;
     const res = await fetch(link);
     const json = await res.json();
@@ -60,7 +65,10 @@ class App extends Component {
     currentRepo.contributors = await this.getInfoAboutRepoContributors(currentRepo);
     currentRepo.languages = await this.getInfoAboutRepoLanguages(currentRepo);
     currentRepo.PRs = await this.getInfoAboutRepoPRs(currentRepo);
-    this.setState({currentRepo});
+    this.setState({
+      currentRepo,
+      isFetching: false,
+    });
   }
   
   async getInfoAboutRepoContributors(repo) {
@@ -133,7 +141,7 @@ class App extends Component {
     this.setState({filtersParams});
   }
 
-  render({ }, { repos=[], sortBy, sortOrder, filtersParams, currentRepo }) {
+  render({ }, { repos=[], sortBy, sortOrder, filtersParams, currentRepo, isFetching }) {
     return (
       <div>
         <Header changeOwner={this.changeOwner}/>
@@ -147,6 +155,7 @@ class App extends Component {
                 filtersParams={filtersParams}
                 getInfoAboutRepo={this.getInfoAboutRepo}
                 currentRepo={currentRepo}
+                isFetching={isFetching}
               />
             </div>
             <div class="col-md-5">

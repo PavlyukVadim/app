@@ -1,10 +1,18 @@
 @import '../../styles/base/variables';
 
+body {
+  padding-top: $header-height !important;
+}
+
 header {
   background-color: $darkslategray;
   height: $header-height;
   color: #fff;
   margin-bottom: 20px !important;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
 
   .row {
     height: $header-height;

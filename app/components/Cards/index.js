@@ -1,6 +1,7 @@
 import {h, Component} from 'preact';
 import Card from './../Card';
 import Dialog from './../Dialog';
+import LoadingBar from './../LoadingBar';
 
 class Cards extends Component {
   constructor(props) {
@@ -92,9 +93,13 @@ class Cards extends Component {
     }); 
   }
 
-  render({ currentRepo }, { repos = [], openedRepo, dialogMode }) {
+  render({ currentRepo, isFetching }, { repos = [], openedRepo, dialogMode }) {
     return (
       <div>
+        {
+          isFetching &&
+          <LoadingBar/ >
+        }
         {
           repos.map(repo => (
             <Card
@@ -104,11 +109,14 @@ class Cards extends Component {
             />
           ))
         }
-        <Dialog
-          openedRepo={currentRepo}
-          dialogMode={dialogMode}
-          closeDialog={this.closeDialog}
-        />
+        { 
+          !isFetching &&
+          <Dialog
+            openedRepo={currentRepo}
+            dialogMode={dialogMode}
+            closeDialog={this.closeDialog}
+          />  
+        }
       </div>
     );
   }
