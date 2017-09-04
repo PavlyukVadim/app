@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const App = () => (
     <Router hashHistory={true}>
-      <Main path="/" route={route}/>
+      <Main path={process.env.NODE_ENV === 'production' ? '/app.github.io' : '/' } route={route}/>
     </Router>
   );
   render(<App />, app);
