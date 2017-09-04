@@ -1,5 +1,6 @@
 import {h, Component} from 'preact';
 import Filters from '../../components/Filters';
+import Sorting from '../../components/Sorting';
 
 class ControlBar extends Component {
   constructor(props) {
@@ -68,9 +69,13 @@ class ControlBar extends Component {
     });
   }
 
-  render({ }, { hasTopics, hasOpenIssues, languages }) {
+  render({ sortOnChange, sortOrderOnChange }, { hasTopics, hasOpenIssues, languages }) {
     return (
       <div>
+        <Sorting
+          sortOnChange={sortOnChange}
+          sortOrderOnChange={sortOrderOnChange}
+        />
         <Filters
           languages={languages}
           hasTopics={hasTopics}
