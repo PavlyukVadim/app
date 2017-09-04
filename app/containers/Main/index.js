@@ -21,11 +21,14 @@ class Main extends Component {
     this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
     this.filtersParamsOnChange = this.filtersParamsOnChange.bind(this);
     this.getInfoAboutRepo = this.getInfoAboutRepo.bind(this);
+    console.log(this.props)
+
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.search(this.state.owner);
+    this.props.search('some');
+    // this.search(this.state.owner);
   }
 
   async search(owner = this.state.owner, addMode) {
