@@ -1,7 +1,7 @@
 import {h, Component} from 'preact';
 import Header from './Header';
-import ControlBar from './ControlBar';
-import Cards from './Cards';
+import CardsList from '../containers/CardsList';
+import ControlBar from '../containers/ControlBar';
 
 class App extends Component {
   constructor(props) {
@@ -158,7 +158,7 @@ class App extends Component {
         <div class="container">
           <div class="row">
             <div class="col-md-7">
-              <Cards 
+              <CardsList
                 repos={repos}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
