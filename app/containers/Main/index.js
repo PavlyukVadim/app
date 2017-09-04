@@ -21,21 +21,42 @@ class Main extends Component {
     this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
     this.filtersParamsOnChange = this.filtersParamsOnChange.bind(this);
     this.getInfoAboutRepo = this.getInfoAboutRepo.bind(this);
-    console.log(this.props)
-
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.props.search('some');
-    // this.search(this.state.owner);
+    this.search(this.state.owner);
+  }
+  
+  changeURL(
+    owner = this.state.owner,
+    sortBy = this.state.sortBy,
+    sortOrder = this.state.sortOrder,
+    filters = this.state.filtersParams,
+    numberOfPages = this.state.numberOfPages
+  ) {
+    let link = ``;
+    let sortByParam = sortBy ? `sort=${sortBy}` : '';
+    let sortOrderParam = sortOrder ? `order=${sortOrder}` : '';
+    let numberOfPagesParam = numberOfPages ? `page=${numberOfPages}` : '';
+    let filtersParams = [];
+    for (const param in filters) {
+      if (typeof filters[param] === 'boolean') {
+        filtersParams.push(param);
+      } else {
+        filtersParams.push(`${param}=${filters[param]}`);
+      }
+    }
+    let params = [sortByParam, sortOrderParam, ...filtersParams, numberOfPagesParam]
+                 .filter((param) => param).join('&');
+    this.props.route(`#${owner}?${params}`);
   }
 
   async search(owner = this.state.owner, addMode) {
     if (this.state.isLastPage && addMode) { return; }
     this.setState({isFetching: true});
+    this.changeURL();
     let numberOfPages = addMode ? this.state.numberOfPages + 1 : this.state.numberOfPages;
-
     const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
     let repos = await api.getRepos(link);
     
@@ -104,16 +125,19 @@ class Main extends Component {
 
   sortOnChange(sortBy) {
     this.setState({sortBy});
+    this.changeURL();
   }
 
   sortOrderOnChange(sortOrder) {
     this.setState({sortOrder});
+    this.changeURL();
   }
 
   filtersParamsOnChange(param) {
     let filtersParams = this.state.filtersParams;
     filtersParams = Object.assign({}, filtersParams, param);
     this.setState({filtersParams});
+    this.changeURL();
   }
 
   render({ }, { repos=[], sortBy, sortOrder, filtersParams, currentRepo, isFetching }) {
