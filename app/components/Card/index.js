@@ -33,7 +33,9 @@ class Card extends Component {
                 <svg aria-label="star" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
                   <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z" />
                 </svg>
-                <span class="number-of-stars">{repo.stargazers_count}</span>
+                <span class="number-of-stars">
+                  {repo.stargazers_count > 1000 ? Math.round(repo.stargazers_count / 100)/10+'k': repo.stargazers_count}
+                </span>
               </a>
             }
             {
