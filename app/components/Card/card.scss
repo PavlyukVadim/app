@@ -16,6 +16,10 @@
   .repo-desc {
     font-size: 14px;
     margin-bottom: 8px;
+    max-width: 500px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .repo-stats {
