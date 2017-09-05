@@ -1,2 +1,10 @@
 @import 'grid';
 @import 'reset';
+
+.app-container {
+  & > .row {
+    @media screen and (max-width: 992px) {
+      flex-direction: column-reverse;
+    }
+  }
+}

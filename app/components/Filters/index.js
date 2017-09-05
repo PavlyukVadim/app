@@ -14,9 +14,9 @@ class Filters extends Component {
     return (
       <div class="filters">
         <div class="row">
-          <p class="col-md-4">Language:</p> 
+          <p class="col-xs-4">Language:</p> 
           <select
-            class="soflow col-md-8"
+            class="soflow col-xs-8"
             onChange={(e) => changeLanguage(e.target.value)}
           >
             <option>all</option>
@@ -32,9 +32,9 @@ class Filters extends Component {
           </select>
         </div>
         <div class="row">
-          <p class="col-md-4">Type:</p> 
+          <p class="col-xs-4">Type:</p> 
           <select
-            class="soflow col-md-8"
+            class="soflow col-xs-8"
             onChange={(e) => changeType(e.target.value)}
           >
             <option>all</option>
@@ -43,8 +43,8 @@ class Filters extends Component {
           </select>
         </div>
         <div class="row">
-          <p class="col-md-4">Updated after:</p> 
-          <div class="col-md-8">
+          <p class="col-xs-4">Updated after:</p> 
+          <div class="col-xs-8">
             <input
               type="date"
               class="updated-after-input"
@@ -54,8 +54,8 @@ class Filters extends Component {
           </div>
         </div>
         <div class="row">
-          <p class="col-md-4">Starred > than:</p> 
-          <div class="col-md-8">
+          <p class="col-xs-4">Starred > than:</p> 
+          <div class="col-xs-8">
             <input
               type="number"
               class="number-of-stars"
@@ -65,7 +65,7 @@ class Filters extends Component {
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-xs-12 col-md-4">
             <label>
               <input
                 type="checkbox"
@@ -76,7 +76,7 @@ class Filters extends Component {
               Has topics
             </label>
           </div>
-          <div class="col-md-6">
+          <div class="col-xs-12 col-md-6">
             <label>
               <input
                 type="checkbox"

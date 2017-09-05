@@ -1,0 +1,14 @@
+.cards-wrapper {
+  height: 100%;
+  
+  .error-message {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 25%;
+
+    @media screen and (max-width: 992px) {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+  }  
+}

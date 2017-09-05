@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <div>
         <Header changeOwner={changeOwner}/>
-        <div class="container">
+        <div class="container app-container">
           <div class="row">
             <div class="col-md-7">
               <CardsList

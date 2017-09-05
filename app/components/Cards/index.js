@@ -6,10 +6,14 @@ import LoadingBar from './../LoadingBar';
 class Cards extends Component {
   render({ isFetching, repos = [], currentRepo, dialogMode, openDialog, closeDialog }) {
     return (
-      <div>
+      <div class="cards-wrapper">
         {
           isFetching &&
           <LoadingBar/ >
+        }
+        {
+          repos.length === 0 &&
+          <p class="error-message">No items found by you filter query!</p>
         }
         {
           repos.map(repo => (
@@ -20,7 +24,7 @@ class Cards extends Component {
             />
           ))
         }
-        { 
+        {
           !isFetching &&
           <Dialog
             openedRepo={currentRepo}

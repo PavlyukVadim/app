@@ -8,9 +8,9 @@ class Sorting extends Component {
     return (
       <div class="sorting">
         <div class="row">
-          <p class="col-md-4">Sort by:</p> 
+          <p class="col-xs-4">Sort by:</p> 
           <select
-            class="soflow col-md-8"
+            class="soflow col-xs-8"
             onChange={(e) => sortOnChange(e.target.value)}
           > 
             {
@@ -21,9 +21,9 @@ class Sorting extends Component {
           </select>
         </div>
         <div class="row">
-          <p class="col-md-4">Sort order:</p> 
+          <p class="col-xs-4">Sort order:</p> 
           <select
-            class="soflow col-md-8"
+            class="soflow col-xs-8"
             onChange={(e) => sortOrderOnChange(e.target.value)}
           >
             {

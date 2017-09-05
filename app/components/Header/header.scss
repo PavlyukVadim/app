@@ -2,6 +2,10 @@
 
 body {
   padding-top: $header-height !important;
+
+  @media screen and (max-width: 500px) {
+    padding-top: $header-mobile-height !important;
+  }
 }
 
 header {
@@ -14,9 +18,25 @@ header {
   top: 0;
   z-index: 999;
 
+  @media screen and (max-width: 500px) {
+    height: $header-mobile-height;
+  }
+
+  & > .container {
+    @media screen and (max-width: 500px) {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }    
+  }
+
   .row {
     height: $header-height;
     align-items: center;
+
+    @media screen and (max-width: 500px) {
+      height: $header-mobile-height;
+    }
   }
   .header-logo-invertocat {
     color: #fff;

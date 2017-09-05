@@ -2,7 +2,24 @@
   &>.row {
     margin: 10px 0;
     align-items: center;
+
+    .col-xs-4 {
+      padding: 10px;
+    }
+
+    @media screen and (max-width: 992px) {
+      justify-content: center;
+
+      .col-xs-12 {
+        align-items: center;
+      }
+    }
+
+    .col-xs-8 {
+      max-width: 200px;
+    }
   }
+  
   padding: 10px 0;
   border-bottom: 1px #e1e4e8 solid;
 }
