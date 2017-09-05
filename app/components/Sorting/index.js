@@ -1,7 +1,10 @@
 import {h, Component} from 'preact';
 
+const sortingOptions = ['Name', 'Stars', 'Issues', 'Updated'];
+const sortingOrderOptions = ['Desc', 'Asc'];
+
 class Sorting extends Component {
-  render({ sortOnChange, sortOrderOnChange }) {
+  render({ sortBy, sortOrder, sortOnChange, sortOrderOnChange }) {
     return (
       <div class="sorting">
         <div class="row">
@@ -9,11 +12,12 @@ class Sorting extends Component {
           <select
             class="soflow col-md-8"
             onChange={(e) => sortOnChange(e.target.value)}
-          >
-            <option>Name</option>
-            <option>Stars</option>
-            <option>Issues</option>
-            <option>Updated</option>
+          > 
+            {
+              sortingOptions.map((option) => (
+                <option selected={sortBy === option}>{option}</option>    
+              ))
+            }
           </select>
         </div>
         <div class="row">
@@ -22,8 +26,11 @@ class Sorting extends Component {
             class="soflow col-md-8"
             onChange={(e) => sortOrderOnChange(e.target.value)}
           >
-            <option>Desc</option>
-            <option>Asc</option>
+            {
+              sortingOrderOptions.map((option) => (
+                <option selected={sortOrder === option}>{option}</option>    
+              ))
+            }
           </select>
         </div>
       </div>

@@ -38,8 +38,11 @@ class App extends Component {
             <div class="col-md-5">
               <ControlBar
                 repos={repos}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
                 sortOnChange={sortOnChange}
                 sortOrderOnChange={sortOrderOnChange}
+                filtersParams={filtersParams}
                 filtersParamsOnChange={filtersParamsOnChange}
               />    
             </div>

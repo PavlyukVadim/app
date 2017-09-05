@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   while (app.firstChild) {
     app.removeChild(app.firstChild);
   }
-
-  process.env.PUBLIC_URL = process.env.PUBLIC_URL || '/app.github.io';
   const App = () => (
     <Router>
       <Main path='/' route={route}/>

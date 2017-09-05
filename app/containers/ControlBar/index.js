@@ -5,10 +5,6 @@ import Sorting from '../../components/Sorting';
 class ControlBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      hasTopics: false,
-      hasOpenIssues: false,
-    };
     this.changeLanguage = this.changeLanguage.bind(this);
     this.changeType = this.changeType.bind(this);
     this.changeNumberOfStars = this.changeNumberOfStars.bind(this);
@@ -50,36 +46,31 @@ class ControlBar extends Component {
   }
   
   changeHasTopics(hasTopics) {
-    const newValue = this.state.hasTopics === true ? false : true;
-    this.setState({
-      hasTopics: newValue,
-    });
+    const newValue = this.props.filtersParams.hasTopics === true ? false : true;
     this.props.filtersParamsOnChange({
       hasTopics: newValue,
     });
   }
   
   changeHasOpenIssues(hasOpenIssues) {
-    const newValue = this.state.hasOpenIssues === true ? false : true;
-    this.setState({
-      hasOpenIssues: newValue,
-    });
+    const newValue = this.props.filtersParams.hasOpenIssues === true ? false : true;
     this.props.filtersParamsOnChange({
       hasOpenIssues: newValue,
     });
   }
 
-  render({ sortOnChange, sortOrderOnChange }, { hasTopics, hasOpenIssues, languages }) {
+  render({ sortOnChange, sortOrderOnChange, sortBy, sortOrder, filtersParams }, { languages }) {
     return (
       <div>
         <Sorting
+          sortBy={sortBy}
+          sortOrder={sortOrder}
           sortOnChange={sortOnChange}
           sortOrderOnChange={sortOrderOnChange}
         />
         <Filters
           languages={languages}
-          hasTopics={hasTopics}
-          hasOpenIssues={hasOpenIssues}
+          filtersParams={filtersParams}
           changeLanguage={this.changeLanguage}
           changeType={this.changeType}
           changeNumberOfStars={this.changeNumberOfStars}

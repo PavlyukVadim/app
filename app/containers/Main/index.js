@@ -6,7 +6,6 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortBy: 'Name',
       filtersParams: {},
       owner: 'geek',
       numberOfPages: 1,
@@ -25,7 +24,49 @@ class Main extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.search(this.state.owner);
+    this.parseURL();
+    // this.search(this.state.owner);
+  }
+
+  parseURL() {
+    const href = window.location.href;
+    let owner = href.match(/#.*\?/)[0];
+    owner = owner ? owner.slice(1, -1) : owner;
+    let params = href.match(/\?.*/)[0];
+    params = params ? params.slice(1).split('&') : params;
+    
+    const paramsObj = {};
+    const filtersParams = {};
+    const stateParams = {};
+
+    const stateParamsMap = {
+      sort: 'sortBy',
+      order: 'sortOrder',
+      page: 'numberOfPages'
+    }
+
+    params.forEach((param) => {
+      if(~param.indexOf('=')) {
+        const [key, value] = param.split('=');
+        paramsObj[key] = value;
+      } else {
+        paramsObj[param] = true;
+      }
+    });
+
+    for(const key in paramsObj) {
+      if (key in stateParamsMap) {
+        const value = paramsObj[key];
+        const newKey = stateParamsMap[key];
+        stateParams[newKey] = value;
+      } else {
+        filtersParams[key] = paramsObj[key];
+      }
+    }
+    const newState = Object.assign({}, {owner}, stateParams, {filtersParams});
+    console.log('newState', newState)
+    this.setState(newState);
+    this.search();
   }
   
   changeURL(
@@ -41,9 +82,9 @@ class Main extends Component {
     let numberOfPagesParam = numberOfPages ? `page=${numberOfPages}` : '';
     let filtersParams = [];
     for (const param in filters) {
-      if (typeof filters[param] === 'boolean') {
+      if (typeof filters[param] === 'boolean' && filters[param]) {
         filtersParams.push(param);
-      } else {
+      } else if (filters[param]) {
         filtersParams.push(`${param}=${filters[param]}`);
       }
     }
@@ -125,6 +166,7 @@ class Main extends Component {
 
   sortOnChange(sortBy) {
     this.setState({sortBy});
+    console.log(sortBy)
     this.changeURL();
   }
 
@@ -134,6 +176,7 @@ class Main extends Component {
   }
 
   filtersParamsOnChange(param) {
+    console.log('filtersParamsOnChange', param)
     let filtersParams = this.state.filtersParams;
     filtersParams = Object.assign({}, filtersParams, param);
     this.setState({filtersParams});

@@ -2,6 +2,7 @@ import {h, Component} from 'preact';
 
 class Filters extends Component {
   render({
+    filtersParams,
     languages,
     changeLanguage,
     changeType,
@@ -9,8 +10,6 @@ class Filters extends Component {
     changeUpdatedDate,
     changeHasTopics,
     changeHasOpenIssues,
-    hasTopics, 
-    hasOpenIssues,
   }) {
     return (
       <div class="filters">
@@ -22,9 +21,12 @@ class Filters extends Component {
           >
             <option>all</option>
             { languages &&
-              languages.map((language) => (
-                  <option>{language}</option>      
-                )
+              languages.map((language) => {
+                return (
+                  <option selected={filtersParams.language == language}>
+                    {language}
+                  </option>
+                )}
               )
             }
           </select>
@@ -46,6 +48,7 @@ class Filters extends Component {
             <input
               type="date"
               class="updated-after-input"
+              value={filtersParams.updatedDate}
               onChange={(e) => changeUpdatedDate(e.target.value)}
             />
           </div>
@@ -56,6 +59,7 @@ class Filters extends Component {
             <input
               type="number"
               class="number-of-stars"
+              value={filtersParams.numberOfStars}
               onChange={(e) => changeNumberOfStars(e.target.value)}
             />
           </div>
@@ -66,7 +70,7 @@ class Filters extends Component {
               <input
                 type="checkbox"
                 name="topics"
-                checked={hasTopics}
+                checked={filtersParams.hasTopics}
                 onChange={(e) => changeHasTopics(e.target.value)}
               />
               Has topics
@@ -77,7 +81,7 @@ class Filters extends Component {
               <input
                 type="checkbox"
                 name="issues"
-                checked={hasOpenIssues}
+                checked={filtersParams.hasOpenIssues}
                 onChange={(e) => changeHasOpenIssues(e.target.value)}
               />
               Has open issues
