@@ -14,7 +14,6 @@ class Dialog extends Component {
   }
 
   render({ openedRepo = {}, dialogMode ='close' }) {
-    console.log(openedRepo)
     return (
       <div
         class={`dialog ${dialogMode}`}
