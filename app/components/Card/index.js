@@ -1,10 +1,8 @@
 import {h, Component} from 'preact';
-
 import relativeDate from './relativeDate';
 import programmingLanguages from './programmingLanguages';
 
 class Card extends Component {
-
   render({ repo, openDialog }) {
     return (
       <div class="card">

@@ -7,7 +7,6 @@ class Main extends Component {
     super(props);
     this.state = {
       filtersParams: {},
-      owner: 'geek',
       numberOfPages: 1,
       isLastPage: false,
       repos: [],
@@ -25,7 +24,6 @@ class Main extends Component {
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
     this.parseURL();
-    // this.search(this.state.owner);
   }
 
   parseURL() {
@@ -38,7 +36,6 @@ class Main extends Component {
     const paramsObj = {};
     const filtersParams = {};
     const stateParams = {};
-
     const stateParamsMap = {
       sort: 'sortBy',
       order: 'sortOrder',
@@ -64,7 +61,6 @@ class Main extends Component {
       }
     }
     const newState = Object.assign({}, {owner}, stateParams, {filtersParams});
-    console.log('newState', newState)
     this.setState(newState);
     this.search();
   }
@@ -166,7 +162,6 @@ class Main extends Component {
 
   sortOnChange(sortBy) {
     this.setState({sortBy});
-    console.log(sortBy)
     this.changeURL();
   }
 
@@ -176,7 +171,6 @@ class Main extends Component {
   }
 
   filtersParamsOnChange(param) {
-    console.log('filtersParamsOnChange', param)
     let filtersParams = this.state.filtersParams;
     filtersParams = Object.assign({}, filtersParams, param);
     this.setState({filtersParams});
