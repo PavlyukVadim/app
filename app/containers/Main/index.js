@@ -23,6 +23,9 @@ class Main extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
+    window.onpopstate = (event) => {
+      this.parseURL();  
+    };
     this.parseURL();
   }
 
