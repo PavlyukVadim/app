@@ -26,15 +26,9 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
       caches.open(CACHE_NAME)
         .then(function(cache) {
-          fetch('asset-manifest.json')
-            .then(response => {
-              response.json()
-            })
-            .then(assets => {
-              const urlsToCache = ['/'];
-              cache.addAll(urlsToCache)
-              console.log('cached');
-            })
+          const urlsToCache = ['/'];
+          cache.addAll(urlsToCache)
+          console.log('cached');
         })
     );
   }
