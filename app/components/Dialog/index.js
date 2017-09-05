@@ -33,6 +33,7 @@ class Dialog extends Component {
                 {openedRepo.name}
               </a>
             </h3>
+            <span onClick={() => this.closeDialog()}>&#10006;</span>
           </div>
           <div class="contributors-table">
             <h4>Contributors:</h4>
@@ -91,7 +92,10 @@ class Dialog extends Component {
             </div>
           </div>
           <div class="PRs-table">
-            <h4>PRs:</h4>
+            {
+              openedRepo.PRs && openedRepo.PRs.length !== 0 &&
+              <h4>PRs:</h4>
+            }
             {
               openedRepo.PRs &&
               openedRepo.PRs.map((PR) => {
@@ -100,8 +104,7 @@ class Dialog extends Component {
                     <a href={PR.html_url}>{PR.title}</a>
                   </li>
                 )
-              }) ||
-              <span>Not found</span>
+              })
             }
           </div>
           {
