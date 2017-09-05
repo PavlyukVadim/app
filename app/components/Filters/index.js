@@ -2,7 +2,7 @@ import {h, Component} from 'preact';
 
 class Filters extends Component {
   render({
-    filtersParams,
+    filtersParams={},
     languages,
     changeLanguage,
     changeType,
