@@ -8,10 +8,12 @@ class Main extends Component {
     this.state = {
       filtersParams: {},
       numberOfPages: 1,
+      currPage: 0,
       isLastPage: false,
       repos: [],
       isFetching: false,
     };
+    this.serchedPages = [];
     this.search = this.search.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.changeOwner = this.changeOwner.bind(this);
@@ -90,36 +92,47 @@ class Main extends Component {
     let params = [sortByParam, sortOrderParam, ...filtersParams, numberOfPagesParam]
                  .filter((param) => param).join('&');
     this.props.route(`#${owner}?${params}`);
+    if (this.state.currPage < this.state.numberOfPages) {
+      this.search();
+    }
   }
 
   async search(owner = this.state.owner, addMode) {
     if (this.state.isLastPage && addMode) { return; }
     this.setState({isFetching: true});
-    this.changeURL();
-    let numberOfPages = addMode ? this.state.numberOfPages + 1 : this.state.numberOfPages;
-    const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
+    let numberOfPages = addMode ? +this.state.numberOfPages + 1 : this.state.numberOfPages;
+    let currPage = this.state.currPage;
+    if (!~this.serchedPages.indexOf(currPage)) {
+      this.serchedPages.push(currPage);  
+    } else {
+      return;
+    }
+    const link = `//api.github.com/users/${owner}/repos?page=${currPage + 1}`;
     let repos = await api.getRepos(link);
     
     if (!repos.length) {
-      this.setState({
-        isLastPage: true,
-        isFetching: false,
+      this.setState((prevState) => {
+        return {
+          isLastPage: true,
+          isFetching: false,
+          currPage: prevState.currPage + 1,
+        }
       });
+      this.changeURL();
       return;
     }
     if (addMode) {
-      repos = repos.concat(this.state.repos);
-      this.setState({
+      repos = repos.concat(this.state.repos);  
+    } 
+    this.setState((prevState) => {
+      return {
         repos,
         numberOfPages,
         isFetching: false,
-      });
-    } else {
-      this.setState({
-        repos,
-        isFetching: false,
-      });
-    }
+        currPage: prevState.currPage + 1,
+      }
+    });
+    this.changeURL();
   }
 
   async getInfoAboutRepo(repo) {
@@ -159,7 +172,9 @@ class Main extends Component {
     this.setState({
       owner,
       numberOfPages: 1,
+      currPage: 0,
     });
+    this.serchedPages = [];
     this.search(owner);
   }
 
@@ -169,7 +184,12 @@ class Main extends Component {
   }
 
   sortOrderOnChange(sortOrder) {
-    this.setState({sortOrder});
+    this.setState((prevState, props) => {
+      return {
+        sortOrder,
+        sortBy: prevState.sortBy || 'Name',
+      }
+    });
     this.changeURL();
   }
 
