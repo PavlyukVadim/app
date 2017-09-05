@@ -1,5 +1,4 @@
 import {h, Component} from 'preact';
-import ReactDOM from 'react-dom';
 import programmingLanguages from './../Card/programmingLanguages';
 
 const degsToRadians = (degs) => {
@@ -16,7 +15,7 @@ class PieChart extends Component {
   }
 
   draw(props) {
-    const canvas = ReactDOM.findDOMNode(this);
+    const canvas = this.canvas;
     const c = canvas.getContext('2d');
     const canvasSize = props.size || 200;
     const center = canvasSize / 2;
@@ -53,6 +52,7 @@ class PieChart extends Component {
   render({ size = 200 }) {
     return (
       <canvas
+        ref={(canvas) => { this.canvas = canvas; }}
         height={size}
         width={size}
       />
