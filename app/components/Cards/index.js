@@ -4,7 +4,28 @@ import Dialog from './../Dialog';
 import LoadingBar from './../LoadingBar';
 
 class Cards extends Component {
-  render({ isFetching, repos = [], currentRepo, dialogMode, openDialog, closeDialog }) {
+  constructor(props) {
+    super(props);
+    this.openDialog = this.openDialog.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
+  }
+
+  openDialog(name) {
+    const linkOfRepo = `https://api.github.com/repos/${this.props.owner}/${name}`;
+    this.props.getInfoAboutRepo(linkOfRepo);
+    this.setState({
+      dialogMode: 'active',
+    });
+  }
+
+  closeDialog() {
+    this.setState({
+      dialogMode: 'close',
+    }); 
+  }
+
+  render({ isFetching, repos = [], currentRepo }, { dialogMode }) {
+    console.log('CardProps', this.props)
     return (
       <div class="cards-wrapper">
         {
@@ -20,7 +41,7 @@ class Cards extends Component {
             <Card
               key={repo.name}
               repo={repo}
-              openDialog={openDialog}
+              openDialog={this.openDialog}
             />
           ))
         }
@@ -29,7 +50,7 @@ class Cards extends Component {
           <Dialog
             openedRepo={currentRepo}
             dialogMode={dialogMode}
-            closeDialog={closeDialog}
+            closeDialog={this.closeDialog}
           />  
         }
       </div>
