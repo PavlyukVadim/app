@@ -12,8 +12,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
   {
-    loading: true,
-    user: null
+    isFetching: true,
   },
   composeEnhancers(
     applyMiddleware(thunk),

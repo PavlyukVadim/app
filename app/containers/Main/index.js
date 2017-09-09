@@ -1,8 +1,12 @@
 import {h, Component} from 'preact';
 import { connect } from 'preact-redux';
-import api from './gitHub.api';
 import App from '../../components/App';
-import { fetchUser } from '../../actions';
+import { 
+  fetchRepos,
+  fetchCurrentRepo,
+} from '../../actions';
+
+
 
 class Main extends Component {
   constructor(props) {
@@ -22,7 +26,7 @@ class Main extends Component {
     this.sortOnChange = this.sortOnChange.bind(this);
     this.sortOrderOnChange = this.sortOrderOnChange.bind(this);
     this.filtersParamsOnChange = this.filtersParamsOnChange.bind(this);
-    this.getInfoAboutRepo = this.getInfoAboutRepo.bind(this);
+    // this.getInfoAboutRepo = this.getInfoAboutRepo.bind(this);
   }
 
   componentDidMount() {
@@ -31,14 +35,18 @@ class Main extends Component {
       this.parseURL();  
     };
     this.parseURL();
+    console.log(this.props)
+    const link = `https://api.github.com/repos/PavlyukVadim/amadev`
+    this.props.fetchCurrentRepo(link);
+    // this.props.fetchUser();
   }
 
   parseURL() {
     const href = window.location.href;
-    let owner = href.match(/#.*\?/)[0];
+    let owner = href.match(/#.*\?/) && href.match(/#.*\?/)[0];
     owner = owner ? owner.slice(1, -1) : owner;
-    let params = href.match(/\?.*/)[0];
-    params = params ? params.slice(1).split('&') : params;
+    let params = href.match(/\?.*/) && href.match(/\?.*/)[0];
+    params = params ? params.slice(1).split('&') : [];
     
     const paramsObj = {};
     const filtersParams = {};
@@ -111,50 +119,51 @@ class Main extends Component {
       return;
     }
     const link = `//api.github.com/users/${owner}/repos?page=${currPage + 1}`;
-    let repos = await api.getRepos(link);
+    this.props.fetchRepos(link);
+    // let repos = await api.getRepos(link);
     
-    if (!repos.length) {
-      this.setState((prevState) => {
-        return {
-          isLastPage: true,
-          isFetching: false,
-          currPage: prevState.currPage + 1,
-        }
-      });
-      this.changeURL();
-      return;
-    }
-    if (addMode) {
-      repos = repos.concat(this.state.repos);  
-    } 
-    this.setState((prevState) => {
-      return {
-        repos,
-        numberOfPages,
-        isFetching: false,
-        currPage: prevState.currPage + 1,
-      }
-    });
-    this.changeURL();
+    // if (!repos.length) {
+    //   this.setState((prevState) => {
+    //     return {
+    //       isLastPage: true,
+    //       isFetching: false,
+    //       currPage: prevState.currPage + 1,
+    //     }
+    //   });
+    //   this.changeURL();
+    //   return;
+    // }
+    // if (addMode) {
+    //   repos = repos.concat(this.state.repos);  
+    // } 
+    // this.setState((prevState) => {
+    //   return {
+    //     repos,
+    //     numberOfPages,
+    //     isFetching: false,
+    //     currPage: prevState.currPage + 1,
+    //   }
+    // });
+    // this.changeURL();
   }
 
-  async getInfoAboutRepo(repo) {
-    this.setState({isFetching: true});
-    let currentRepo = await api.getInfoAboutCurrentRepo(this.state.owner, repo);
-    [
-      currentRepo.contributors,
-      currentRepo.languages,
-      currentRepo.PRs
-    ] = await Promise.all([
-      api.getInfoAboutRepoContributors(currentRepo),
-      api.getInfoAboutRepoLanguages(currentRepo),
-      api.getInfoAboutRepoPRs(currentRepo)
-    ]);
-    this.setState({
-      currentRepo,
-      isFetching: false,
-    });
-  }
+  // async getInfoAboutRepo(repo) {
+  //   this.setState({isFetching: true});
+  //   let currentRepo = await api.getInfoAboutCurrentRepo(this.state.owner, repo);
+  //   [
+  //     currentRepo.contributors,
+  //     currentRepo.languages,
+  //     currentRepo.PRs
+  //   ] = await Promise.all([
+  //     api.getInfoAboutRepoContributors(currentRepo),
+  //     api.getInfoAboutRepoLanguages(currentRepo),
+  //     api.getInfoAboutRepoPRs(currentRepo)
+  //   ]);
+  //   this.setState({
+  //     currentRepo,
+  //     isFetching: false,
+  //   });
+  // }
   
   handleScroll() {
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -234,7 +243,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUser: (username) => dispatch(fetchUser(username))
+    fetchRepos: (link) => dispatch(fetchRepos(link)),
+    fetchCurrentRepo: (link) => dispatch(fetchCurrentRepo(link)),
   }
 }
 
