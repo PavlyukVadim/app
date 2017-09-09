@@ -1,6 +1,8 @@
 import {h, Component} from 'preact';
+import { connect } from 'preact-redux';
 import api from './gitHub.api';
 import App from '../../components/App';
+import { fetchUser } from '../../actions';
 
 class Main extends Component {
   constructor(props) {
@@ -98,6 +100,7 @@ class Main extends Component {
   }
 
   async search(owner = this.state.owner, addMode) {
+    // this.props.fetchUser();
     if (this.state.isLastPage && addMode) { return; }
     this.setState({isFetching: true});
     let numberOfPages = addMode ? +this.state.numberOfPages + 1 : this.state.numberOfPages;
@@ -222,4 +225,17 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchUser: (username) => dispatch(fetchUser(username))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
