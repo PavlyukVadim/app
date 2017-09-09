@@ -1,50 +1,20 @@
 import {h, Component} from 'preact';
-import Header from './Header';
+import NavBar from '../containers/NavBar';
 import CardsList from '../containers/CardsList';
 import ControlBar from '../containers/ControlBar';
 
 class App extends Component {
-  render({
-    changeOwner,
-    repos=[],
-    sortBy,
-    sortOrder,
-    filtersParams,
-    search,
-    getInfoAboutRepo,
-    currentRepo,
-    isFetching,
-    sortOnChange,
-    sortOrderOnChange,
-    filtersParamsOnChange
-  }) {
+  render({}) {
     return (
       <div>
-        <Header changeOwner={changeOwner}/>
+        <NavBar />
         <div class="container app-container">
           <div class="row">
             <div class="col-md-7">
-              <CardsList
-                repos={repos}
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-                filtersParams={filtersParams}
-                search={search}
-                getInfoAboutRepo={getInfoAboutRepo}
-                currentRepo={currentRepo}
-                isFetching={isFetching}
-              />
+              <CardsList />
             </div>
             <div class="col-md-5">
-              <ControlBar
-                repos={repos}
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-                sortOnChange={sortOnChange}
-                sortOrderOnChange={sortOrderOnChange}
-                filtersParams={filtersParams}
-                filtersParamsOnChange={filtersParamsOnChange}
-              />    
+              <ControlBar />
             </div>
           </div> 
         </div>
