@@ -79,7 +79,9 @@ const mapStateToProps = (state) => {
     owner: state.owner,
     isFetching: state.isFetching,
     numberOfPages: state.numberOfPages,
+    currentPage: state.currentPage,
     repos: validateRepos(state.repos, state.filtersParams, state.sortingParams),
+    isAllRepos: state.isAllRepos,
     currentRepo: state.currentRepo,
   }
 }

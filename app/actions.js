@@ -7,8 +7,6 @@ export const CHANGE_FILTERS = 'CHANGE_FILTERS';
 export const CHANGE_SORTING = 'CHANGE_SORTING';
 export const CHANGE_URL = 'CHANGE_URL';
 
-
-
 export const fetchRepo = () => {
   return {
     type: FETCH_REPO,
@@ -109,7 +107,6 @@ export const fetchRepos = (link, mode, isInitialLoading) => {
 };
 
 const getInfoAboutRepoContributors = async (repo) => {
-  console.log(repo)
   const link = repo.contributors_url;
   const res = await fetch(link);
   const json = await res.json();
@@ -144,7 +141,6 @@ const getInfoAboutRepoPRs = async (repo) => {
 
 export const fetchCurrentRepo = (link) => {
   return (dispatch) => {
-    console.log(link);
     let currentRepo = {};
     dispatch(fetchRepo());
       return fetch(link)
@@ -168,12 +164,3 @@ export const fetchCurrentRepo = (link) => {
         .then(repo => dispatch(receiveCurrentRepo(repo)))
   };
 };
-
-
-
-
-
-
-
-
-

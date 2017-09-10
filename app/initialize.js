@@ -17,6 +17,8 @@ const initialStore = Object.assign(
     sortingParams: {},
     filtersParams: {},
     numberOfPages: 1,
+    currentPage: 0,
+    isAllRepos: false,
   },
   parseURL(),
 );

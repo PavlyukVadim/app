@@ -6,6 +6,7 @@ import LoadingBar from './../LoadingBar';
 class Cards extends Component {
   constructor(props) {
     super(props);
+    this.fetchedPages = [];
     this.openDialog = this.openDialog.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
   }
@@ -24,19 +25,42 @@ class Cards extends Component {
 
   initialReposLoading(owner, numberOfPages) {
     const link = `//api.github.com/users/${owner}/repos`;
-    this.props.fetchRepos(link);
-    if (numberOfPages > 1) {
-      const arrayOfLinks = new Array(numberOfPages - 1)
-        .fill(0)
-        .map((item, i) => `//api.github.com/users/${owner}/repos?page=${i + 2}`);
-      arrayOfLinks.forEach((link) => {
-        this.props.fetchRepos(link, 'receiveNextRepos', true);
+    this.props.fetchRepos(link)
+      .then(() => {
+        if (numberOfPages > 1) {
+          const arrayOfLinks = new Array(numberOfPages - 1)
+            .fill(0)
+            .map((item, i) => {
+              this.fetchedPages.push(i + 2);
+              return `//api.github.com/users/${owner}/repos?page=${i + 2}`
+            });
+          arrayOfLinks.forEach((link) => {
+            this.props.fetchRepos(link, 'receiveNextRepos', true);
+          });
+        }
       });
-    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps)
+    const numberOfPage = Number(nextProps.numberOfPages) + 1;
+    
+    const loadInitialReposComplete = this.props.currentPage != nextProps.currentPage &&
+                                     nextProps.currentPage == nextProps.numberOfPages;
+
+    if ((this.fetchedPages.indexOf(numberOfPage) === -1 || loadInitialReposComplete) &&
+        nextProps.repos.length < 30 &&
+        !nextProps.isAllRepos &&
+        nextProps.currentPage == nextProps.numberOfPages) {
+      const owner = nextProps.owner;
+      const link = `//api.github.com/users/${owner}/repos?page=${numberOfPage}`;
+      this.fetchedPages.push(numberOfPage);
+      this.props.fetchRepos(link, 'receiveNextRepos');
+    }
   }
 
   handleScroll() {
@@ -46,10 +70,8 @@ class Cards extends Component {
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
-      console.log('Load one more page...');
       const owner = this.props.owner;
       const numberOfPages = Number(this.props.numberOfPages) + 1;
-      console.log(this.props)
       if (owner) {
         const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
         this.props.fetchRepos(link, 'receiveNextRepos');
@@ -71,7 +93,8 @@ class Cards extends Component {
     });
   }
 
-  render({ isFetching, repos, currentRepo }, { dialogMode }) {
+  render({ isFetching, repos, currentRepo, numberOfPages, isAllRepos, owner }, { dialogMode }) {
+    console.log('repos', repos.length)
     return (
       <div class="cards-wrapper">
         {
