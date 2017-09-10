@@ -7,12 +7,17 @@ export const parseURL = () => {
   
   const paramsObj = {};
   const filtersParams = {};
+  const sortingParams = {};
   const stateParams = {};
-  const stateParamsMap = {
+
+  const sortingParamsMap = {
     sort: 'sortBy',
     order: 'sortOrder',
-    page: 'numberOfPages'
-  }
+  };
+
+  const stateParamsMap = {
+    page: 'numberOfPages',
+  };
 
   params.forEach((param) => {
     if(~param.indexOf('=')) {
@@ -28,10 +33,14 @@ export const parseURL = () => {
       const value = paramsObj[key];
       const newKey = stateParamsMap[key];
       stateParams[newKey] = value;
+    } else if (key in sortingParamsMap) {
+      const value = paramsObj[key];
+      const newKey = sortingParamsMap[key];
+      sortingParams[newKey] = paramsObj[key];
     } else {
       filtersParams[key] = paramsObj[key];
     }
   }
-  const newState = Object.assign({}, {owner}, stateParams, {filtersParams});
+  const newState = Object.assign({}, {owner}, stateParams, {filtersParams}, {sortingParams});
   return newState;
 }
