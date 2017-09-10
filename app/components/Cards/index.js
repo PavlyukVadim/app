@@ -21,11 +21,10 @@ class Cards extends Component {
   closeDialog() {
     this.setState({
       dialogMode: 'close',
-    }); 
+    });
   }
 
-  render({ isFetching, repos = [], currentRepo }, { dialogMode }) {
-    console.log('CardProps', this.props)
+  render({ isFetching, repos, currentRepo }, { dialogMode }) {
     return (
       <div class="cards-wrapper">
         {
