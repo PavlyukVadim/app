@@ -1,5 +1,5 @@
-export const parseURL = () => {
-  const href = window.location.href;
+export const parseURL = (link) => {
+  const href = link || window.location.href;
   let owner = href.match(/#.*\?/) && href.match(/#.*\?/)[0];
   owner = owner ? owner.slice(1, -1) : owner;
   let params = href.match(/\?.*/) && href.match(/\?.*/)[0];
