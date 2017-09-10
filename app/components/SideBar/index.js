@@ -8,6 +8,10 @@ class SideBar extends Component {
     this.changeHasTopics = this.changeHasTopics.bind(this);
     this.changeHasOpenIssues = this.changeHasOpenIssues.bind(this);
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.props.route(nextProps.URL);
+  }
     
   changeHasTopics(hasTopics) {
     const newValue = this.props.filtersParams.hasTopics === true ? false : true;

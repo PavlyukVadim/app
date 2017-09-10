@@ -4,7 +4,7 @@ import CardsList from '../containers/CardsList';
 import ControlBar from '../containers/ControlBar';
 
 class App extends Component {
-  render({}) {
+  render({ route }) {
     return (
       <div>
         <NavBar />
@@ -14,9 +14,9 @@ class App extends Component {
               <CardsList />
             </div>
             <div class="col-md-5">
-              <ControlBar />
+              <ControlBar route={route}/>
             </div>
-          </div> 
+          </div>
         </div>
       </div>
     );
