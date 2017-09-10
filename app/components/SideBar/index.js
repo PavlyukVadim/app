@@ -10,7 +10,9 @@ class SideBar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.route(nextProps.URL);
+    if (nextProps.URL) {
+      this.props.route(nextProps.URL);  
+    }
   }
     
   changeHasTopics(hasTopics) {
