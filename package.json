@@ -36,7 +36,9 @@
     "handlebars-brunch": "^2.10.0",
     "jest": "^20.0.4",
     "preact-jsx-chai": "^2.2.1",
+    "react": "^15.4.0",
     "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.4.0",
     "uglify-js-brunch": "^2.10.0"
   },
   "scripts": {
