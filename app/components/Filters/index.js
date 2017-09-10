@@ -1,5 +1,7 @@
 import {h, Component} from 'preact';
 
+const typeOptions = ['all', 'forks', 'sources'];
+
 class Filters extends Component {
   render({
     filtersParams={},
@@ -37,9 +39,11 @@ class Filters extends Component {
             class="soflow col-xs-8"
             onChange={(e) => changeType(e.target.value)}
           >
-            <option>all</option>
-            <option>forks</option>
-            <option>sources</option>
+            {
+              typeOptions.map((option) => (
+                <option selected={filtersParams.type === option}>{option}</option>    
+              ))
+            }
           </select>
         </div>
         <div class="row">
