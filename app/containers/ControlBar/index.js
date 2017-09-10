@@ -4,33 +4,6 @@ import { changeParamsAndUpdateURL } from '../../actions';
 import SideBar from '../../components/SideBar';
 
 
-// const changeURL(
-//   owner = this.state.owner,
-//   sortBy = this.state.sortBy,
-//   sortOrder = this.state.sortOrder,
-//   filters = this.state.filtersParams,
-//   numberOfPages = this.state.numberOfPages
-// ) {
-//   let link = ``;
-//   let sortByParam = sortBy ? `sort=${sortBy}` : '';
-//   let sortOrderParam = sortOrder ? `order=${sortOrder}` : '';
-//   let numberOfPagesParam = numberOfPages ? `page=${numberOfPages}` : '';
-//   let filtersParams = [];
-//   for (const param in filters) {
-//     if (typeof filters[param] === 'boolean' && filters[param]) {
-//       filtersParams.push(param);
-//     } else if (filters[param]) {
-//       filtersParams.push(`${param}=${filters[param]}`);
-//     }
-//   }
-//   let params = [sortByParam, sortOrderParam, ...filtersParams, numberOfPagesParam]
-//                .filter((param) => param).join('&');
-//   this.props.route(`#${owner}?${params}`);
-//   if (this.state.currPage < this.state.numberOfPages) {
-//     this.search();
-//   }
-// }
-
 const getLanguages = (repos = []) => {
   let languages = [];
   repos.forEach((repo) => {

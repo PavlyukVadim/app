@@ -78,6 +78,7 @@ const mapStateToProps = (state) => {
   return {
     owner: state.owner,
     isFetching: state.isFetching,
+    numberOfPages: state.numberOfPages,
     repos: validateRepos(state.repos, state.filtersParams, state.sortingParams),
     currentRepo: state.currentRepo,
   }
@@ -85,7 +86,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchRepos: (link) => dispatch(fetchRepos(link)),
+    fetchRepos: (link, mode, isInitialLoading) => dispatch(fetchRepos(link, mode, isInitialLoading)),
     getInfoAboutRepo: (link) => dispatch(fetchCurrentRepo(link)),
   }
 }

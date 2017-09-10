@@ -12,14 +12,27 @@ class Cards extends Component {
 
   componentDidMount() {
     const owner = this.props.owner;
+    const numberOfPages = this.props.numberOfPages;
     if (owner) {
-      const link = `//api.github.com/users/${owner}/repos`;
-      this.props.fetchRepos(link);
+      this.initialReposLoading(owner, numberOfPages);
     }
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', () => this.handleScroll());
     // window.onpopstate = (event) => {
     //   this.parseURL(); 
     // };
+  }
+
+  initialReposLoading(owner, numberOfPages) {
+    const link = `//api.github.com/users/${owner}/repos`;
+    this.props.fetchRepos(link);
+    if (numberOfPages > 1) {
+      const arrayOfLinks = new Array(numberOfPages - 1)
+        .fill(0)
+        .map((item, i) => `//api.github.com/users/${owner}/repos?page=${i + 2}`);
+      arrayOfLinks.forEach((link) => {
+        this.props.fetchRepos(link, 'receiveNextRepos', true);
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -34,6 +47,13 @@ class Cards extends Component {
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
       console.log('Load one more page...');
+      const owner = this.props.owner;
+      const numberOfPages = Number(this.props.numberOfPages) + 1;
+      console.log(this.props)
+      if (owner) {
+        const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
+        this.props.fetchRepos(link, 'receiveNextRepos');
+      }
     }
   }
 
