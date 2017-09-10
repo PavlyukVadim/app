@@ -10,6 +10,14 @@ class Cards extends Component {
     this.closeDialog = this.closeDialog.bind(this);
   }
 
+  componentDidMount() {
+    const owner = this.props.owner;
+    if (owner) {
+      const link = `//api.github.com/users/${owner}/repos`;
+      this.props.fetchRepos(link);
+    }
+  }
+
   openDialog(name) {
     const linkOfRepo = `https://api.github.com/repos/${this.props.owner}/${name}`;
     this.props.getInfoAboutRepo(linkOfRepo);

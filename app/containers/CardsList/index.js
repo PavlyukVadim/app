@@ -1,6 +1,6 @@
 import {h, Component} from 'preact';
 import { connect } from 'preact-redux';
-import { fetchCurrentRepo } from '../../actions';
+import { fetchRepos, fetchCurrentRepo } from '../../actions';
 import Cards from '../../components/Cards';
 
 
@@ -85,6 +85,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchRepos: (link) => dispatch(fetchRepos(link)),
     getInfoAboutRepo: (link) => dispatch(fetchCurrentRepo(link)),
   }
 }
