@@ -5,15 +5,25 @@ import { createStore, applyMiddleware } from 'redux';
 import Router, { route } from 'preact-router';
 
 import reducer from './reducer';
-import Main from './containers/Main';
+import { parseURL } from './utils';
+import App from './components/App';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const initialStore = Object.assign(
+  {
+    isFetching: false,
+    repos: [],
+    sortingParams: {},
+    filtersParams: {},
+    numberOfPages: 1,
+  },
+  parseURL(),
+);
+
 const store = createStore(
   reducer,
-  {
-    isFetching: true,
-  },
+  initialStore,
   composeEnhancers(
     applyMiddleware(thunk),
   )
@@ -24,13 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
   while (app.firstChild) {
     app.removeChild(app.firstChild);
   }
-  const App = () => (
+  const Main = () => (
     <Provider store={store}>
       <Router>
-        <Main path='/' route={route}/>
-        <Main path='/app.github.io' route={route}/>
+        <App path='/' route={route}/>
+        <App path='/app.github.io' route={route}/>
       </Router>
     </Provider>
   );
-  render(<App />, app);
+  render(<Main />, app);
 });
