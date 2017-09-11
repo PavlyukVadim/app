@@ -32,6 +32,7 @@
     "chai": "^4.1.1",
     "clean-css-brunch": "^2",
     "enzyme": "^2.9.1",
+    "es6-promise": "^4.1.1",
     "express": "^4.15.4",
     "handlebars-brunch": "^2.10.0",
     "jest": "^20.0.4",
@@ -39,7 +40,9 @@
     "react": "^15.4.0",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.4.0",
-    "uglify-js-brunch": "^2.10.0"
+    "sinon": "^3.2.1",
+    "uglify-js-brunch": "^2.10.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "brunch watch --server",
