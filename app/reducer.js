@@ -30,7 +30,7 @@ const receiveNextRepos = (state, action) => {
   let numberOfPages = Number(state.numberOfPages);
   let currentPage = Number(state.currentPage) + 1;
   const isAllRepos = action.repos.length == 0;
-  if (!action.isInitialLoading) {
+  if (!action.isInitialLoading && !isAllRepos) {
     numberOfPages = numberOfPages + 1;
   }
   return Object.assign({}, state, {

@@ -70,8 +70,9 @@ class Cards extends Component {
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
       const owner = this.props.owner;
+      const isAllRepos = this.props.isAllRepos;
       const numberOfPages = Number(this.props.numberOfPages) + 1;
-      if (owner) {
+      if (owner && !isAllRepos) {
         const link = `//api.github.com/users/${owner}/repos?page=${numberOfPages}`;
         this.props.fetchRepos(link, 'receiveNextRepos');
       }
