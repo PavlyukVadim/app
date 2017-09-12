@@ -16,7 +16,11 @@ const fetchRepo = (state, action) => {
 };
 
 const receiveNewRepos = (state, action) => {
-  const isAllRepos = action.repos.length == 0;
+  let isAllRepos = action.repos.length == 0;
+  if (action.repos.message === 'Not Found') {
+    isAllRepos = true;
+    action.repos = [];
+  }
   let currentPage = Number(state.currentPage) + 1;
   return Object.assign({}, state, {
     isFetching: false,
@@ -29,7 +33,11 @@ const receiveNewRepos = (state, action) => {
 const receiveNextRepos = (state, action) => {
   let numberOfPages = Number(state.numberOfPages);
   let currentPage = Number(state.currentPage) + 1;
-  const isAllRepos = action.repos.length == 0;
+  let isAllRepos = action.repos.length == 0;
+  if (action.repos.message === 'Not Found') {
+    isAllRepos = true;
+    action.repos = [];
+  }
   if (!action.isInitialLoading && !isAllRepos) {
     numberOfPages = numberOfPages + 1;
   }

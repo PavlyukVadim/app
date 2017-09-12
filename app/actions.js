@@ -13,7 +13,7 @@ export const fetchRepo = () => {
   };
 };
 
-export const receiveNextRepos = (repos, isInitialLoading) => {
+export const receiveNextRepos = (repos = [], isInitialLoading) => {
   return {
     repos,
     type: RECEIVE_NEXT_REPOS,
@@ -28,7 +28,7 @@ export const receiveNextReposAndUpdateURL = (repos, isInitialLoading) => {
   };
 };
 
-export const receiveNewRepos = (repos) => {
+export const receiveNewRepos = (repos = []) => {
   return {
     repos,
     type: RECEIVE_NEW_REPOS,
