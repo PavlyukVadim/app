@@ -46,7 +46,6 @@ class Cards extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps)
     const numberOfPage = Number(nextProps.numberOfPages) + 1;
     
     const loadInitialReposComplete = this.props.currentPage != nextProps.currentPage &&
@@ -94,7 +93,6 @@ class Cards extends Component {
   }
 
   render({ isFetching, repos, currentRepo, numberOfPages, isAllRepos, owner }, { dialogMode }) {
-    console.log('repos', repos.length)
     return (
       <div class="cards-wrapper">
         {
