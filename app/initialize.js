@@ -8,7 +8,7 @@ import reducer from './reducer';
 import { parseURL } from './utils';
 import App from './components/App';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialStore = Object.assign(
   {
@@ -26,9 +26,9 @@ const initialStore = Object.assign(
 const store = createStore(
   reducer,
   initialStore,
-  composeEnhancers(
+  // composeEnhancers(
     applyMiddleware(thunk),
-  )
+  // )
 );
 
 document.addEventListener('DOMContentLoaded', () => {
