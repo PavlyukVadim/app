@@ -7,7 +7,7 @@ import {
   CHANGE_FILTERS,
   CHANGE_SORTING,
   CHANGE_URL,
-} from 'actions';
+} from './actions';
 
 const fetchRepo = (state, action) => {
   return Object.assign({}, state, {
