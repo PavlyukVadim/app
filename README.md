@@ -1,6 +1,8 @@
 # Kottans Front End 2017 &mdash; test assignment
 *mini [GitHub API](https://developer.github.com/v3/) client*
 
+[![Build Status](https://travis-ci.org/PavlyukVadim/app.github.io.svg?branch=source)](https://travis-ci.org/PavlyukVadim/app.github.io)
+
 link to hosted app: https://pavlyukvadim.github.io/app.github.io/
 
 ### features:
